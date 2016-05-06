@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Hjælp til lovlig kontrakt | Kontrakt generator</title>
+        <style type="text/css">
+            body {
+                background: rgb(230,230,230);
+                color: rgb(40,40,40);
+                font-family: sans-serif;
+                font-size: 0.9em;
+                text-align: center;
+                line-height: 150%;
+            }
+            .container {
+                width: 100%;
+                max-width: 800px;
+                margin: 25px 3px;
+                display: inline-block;
+                text-align: left;
+            }
+            header {
+                text-align: center;
+            }
+            form section {
+                padding: 40px 0;
+            }
+            .radio-category label {
+                display: inline-block;
+                width: 100%;
+                max-width: 250px;
+                padding: 5px 5px 5px 26px;
+                border: 1px solid rgba(40,40,40,0.5);
+                box-shadow: 0 0 2px rgba(40,40,40,0.5) inset;
+                border-radius: 2px;
+                background-color: rgba(255,255,255,0.3);
+            }
+            .radio-category label input[type="radio"] {
+                margin-left: -21px;
+                margin-top: 15px;
+            }
+            p {
+                margin-top: 0;
+            }
+            input[type="text"], input[type="number"], input[type="email"] {
+                border: none;
+                border-bottom: 1px solid rgba(40,40,40,0.5);
+                background: transparent;
+                text-align: center;
+            }
+            input[type="number"] {
+                width: 100px;
+            }
+            textarea {
+                background: transparent;
+                border: 1px solid rgba(40,40,40,0.5);
+                resize: none;
+                vertical-align: middle;
+                font-family: inherit;
+                font-size: inherit;
+            }
+            section.submit-form {
+                text-align: center;
+            }
+            section.submit-form button {
+                font-size: 2em;
+                padding: 10px 50px;
+                background: rgba(255,255,255,0.6);
+                border: none;
+                box-shadow: 0px -2px 4px rgba(40,40,40,0.8) inset, 0 0 5px rgba(40,40,40,0.5);
+                cursor: pointer;
+                transition: background 0.2s;
+            }
+            section.submit-form button:hover {
+                background: rgba(255,255,255,0.9);
+            }
+            section h1 {
+                font-size: 1em;
+                width: 220px;
+                margin-bottom: 30px;
+                border-bottom: 1px solid rgba(40,40,40,1);
+            }
+            .maybe-section {
+                display: none;
+            }
+            .instruction {
+                font-size: 0.8em;
+                color: rgba(40,40,40,0.6);
+                font-style: italic;
+                margin-bottom: 15px;
+            }
+            .big-text {
+                width: 100%;
+                max-width: 600px;
+                height: 300px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <img src="logo.png">
+                <h1>Kontrakt generator</h1>
+                <h5>Hjælp til at lave lovlige kontrakter</h5>
+            </header>
+            <form method="GET" action="/contract/">
+                <section class="employee-type radio-category">
+                    <h1>Ansættelsestype</h1>
+                    <label>
+                        <input type="radio" name="employee-type" value="employee">
+                        <strong>Medarbejder</strong>
+                        <p>En ansat medarbejder.</p>
+                    </label>
+                    <label>
+                        <input type="radio" name="employee-type" value="consultant">
+                        <strong>Konsulent</strong>
+                        <p>Ikke en medarbejder, men en yder af services.</p>
+                    </label>
+                </section>
+                <section class="wage-calculation-type radio-category">
+                    <h1>Aflønning</h1>
+                    <label>
+                        <input type="radio" name="wage-calculation-type" value="hourly">
+                        <strong>Timelønnet</strong>
+                        <p>Lønnen afregnes efter det timetal der konkret er arbejdet hver måned</p>
+                    </label>
+                    <label>
+                        <input type="radio" name="wage-calculation-type" value="static">
+                        <strong>Månedløn</strong>
+                        <p>Lønnen er fastsat på månedsbasis, og der betales altid det samme beløb.</p>
+                    </label>
+                </section>
+                <section class="hours-per-week">
+                    <h1>Timer pr. uge</h1>
+                    <span class="hours-per-week-if-no-wage-calculation">
+                        Vælg en aflønningstype for at aktivere denne kategori.
+                    </span>
+                    <span class="maybe-section hours-per-week-if-static-wage-calculation">
+                        Kontrakten er på <input type="number" name="hours-per-week"> timer om ugen.
+                    </span>
+                    <span class="maybe-section hours-per-week-if-hourly-wage-calculation">
+                        Firmaet stiller <input type="number" name="available-hours-per-week"> timers arbejde til rådighed om ugen.<br>
+                        Den ansatte forventes at arbejde mindst <input type="number" name="minimum-hours-per-week"> timer om ugen.
+                    </span>
+                    <script>
+                        (function() {
+                            var sectionIfNone = document.querySelector(".hours-per-week-if-no-wage-calculation");
+                            var sectionIfStatic = document.querySelector(".hours-per-week-if-static-wage-calculation");
+                            var sectionIfHourly = document.querySelector(".hours-per-week-if-hourly-wage-calculation");
+                            Array.prototype.forEach.call(document.querySelectorAll("input[name=wage-calculation-type]"), function(radio) {
+                                radio.addEventListener("click", function() {
+                                    if(radio.value == "static") {
+                                        sectionIfStatic.style = "display: block;";
+                                        sectionIfHourly.style = "display: none;";
+                                        sectionIfNone.style = "display: none;";
+                                        return;
+                                    }
+                                    sectionIfStatic.style = "display: none;";
+                                    sectionIfHourly.style = "display: block;";
+                                    sectionIfNone.style = "display: none;";
+                                });
+                            });
+                        })();
+                    </script>
+                </section>
+                <section class="pay">
+                    <h1>Løn</h1>
+                    <span class="pay-if-no-wage-calculation">
+                        Vælg en aflønningstype for at aktivere denne kategori.
+                    </span>
+                    <span class="maybe-section pay-if-static-wage-calculation">
+                        Medarbejderens løn er kr. <input type="number" name="monthly-pay"> om måneden.
+                    </span>
+                    <span class="maybe-section pay-if-hourly-wage-calculation">
+                        Medarbejderens løn er kr. <input type="number" name="hourly-pay"> i timen.
+                    </span>
+                    <script>
+                        (function() {
+                            var sectionIfNone = document.querySelector(".pay-if-no-wage-calculation");
+                            var sectionIfStatic = document.querySelector(".pay-if-static-wage-calculation");
+                            var sectionIfHourly = document.querySelector(".pay-if-hourly-wage-calculation");
+                            Array.prototype.forEach.call(document.querySelectorAll("input[name=wage-calculation-type]"), function(radio) {
+                                radio.addEventListener("click", function() {
+                                    if(radio.value == "static") {
+                                        sectionIfStatic.style = "display: block;";
+                                        sectionIfHourly.style = "display: none;";
+                                        sectionIfNone.style = "display: none;";
+                                        return;
+                                    }
+                                    sectionIfStatic.style = "display: none;";
+                                    sectionIfHourly.style = "display: block;";
+                                    sectionIfNone.style = "display: none;";
+                                });
+                            });
+                        })();
+                    </script>
+                </section>
+                <section class="work-tasks">
+                    <h1>Arbejdsopgaver</h1>
+                    <div class="instruction">Hver linje bliver til et punkt på en liste.</div>
+                    <textarea class="big-text" name="work-tasks"></textarea>
+                </section>
+                <section class="employee-details">
+                    <h1>Medarbejders oplysninger</h1>
+                    Den ansattes navn er <input type="text" name="employee-name"> og har CPR <input type="text" name="employee-cpr">.<br>
+                    Medarbejderen ansættes med stillingsbetegnelsen <input type="text" name="employee-title">.<br>
+                    Addressen er <textarea name="employee-address"></textarea>, og lønnen skal indsættes på konto <input type="text" name="employee-bank-account">.
+                </section>
+                <section class="employer-details">
+                    <h1>Ansætters oplysninger</h1>
+                    Firmaet, der ansætter, er <input type="text" name="employer-name">, og har CVR <input type="text" name="employer-cvr">.<br>
+                    Firmaet addresse er <textarea name="employer-address"></textarea>.<br>
+                    Den ansattes kontaktperson i firmaet er <input type="text" name="employer-contact-person"> (med titel <input type="text" name="employer-contact-person-title">).<br>
+                    Underskriver af kontrakten, på firmaets vegne, er <input type="text" name="employer-signer"> (med titel <input type="text" name="employer-signer-title">).<br>
+                    Firmaet kan kontaktes pr. email på <input type="email" name="employer-email">.<br>
+                    Email-addressen bruges til at informere firmaet om opdateringer til kontrakt-generatoren.
+                </section>
+                <section class="other">
+                    <h1>Andet</h1>
+                    Ansættelsen er gældende fra d. <input type="date" name="start-date" placeholder="yyyy-mm-dd" min="2015-01-01">.
+                </section>
+                <section class="submit-form">
+                    <p>Brug af kontrakt-generatoren sker i øjeblikket på eget ansvar.</p>
+                    <button type="submit">Lav kontrakt</button>
+                </section>
+            </form>
+        </div>
+    </body>
+</html>

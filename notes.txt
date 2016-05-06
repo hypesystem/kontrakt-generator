@@ -1,0 +1,17 @@
+before ready
+- ferie i tilfælde hvor man selv afholder feriepenge?
+- pay paragraph for månedslønnet
+- sygdom som ikke funktionær
+- opsigelse som ikke funktionær
+
+later
+- udstyr
+- custom afsnit
+- evt tidsbegrænsede stillinger
+
+example link:
+- http://localhost:4000/contract/?employee-type=employee&wage-calculation-type=hourly&hours-per-week=&available-hours-per-week=15&minimum-hours-per-week=10&monthly-pay=&hourly-pay=160&work-tasks=&employee-name=Anders+Engh%C3%B8j&employee-cpr=290591-2537&employee-title=Software+Developer&employee-address=Gyngemose+Parkvej+4A+5th%0D%0A2860+S%C3%B8borg&employee-bank-account=3098+3098199199&employer-name=deranged+v%2F+Niels+Roesen+Abildgaard&employer-cvr=35695583&employer-address=Markskellet+8+st+th%0D%0A2720+Vanl%C3%B8se&employer-contact-person=Niels+Roesen+Abildgaard&employer-contact-person-title=Software+Developer&employer-signer=Niels+Roesen+Abildgaard&employer-signer-title=Software+Developer&employer-email=niels%40deranged.dk&start-date=2016-05-06
+
+more research:
+- http://www.jura-guide.dk/ansaettelseskontrakt
+- http://www.ret-raad.dk/blog/dorthe-westerdahl-2014-11-07-valg-af-ansaettelseskontrakt
